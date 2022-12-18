@@ -1,6 +1,6 @@
 # Roots of the synchronization
 root = /Users/barbarossa/
-root = /Users/barbarossa/Dropbox/home/
+root = /Users/barbarossa/Library/CloudStorage/Dropbox/home
 
 # Paths to synchronize 
 path = Documents/Private

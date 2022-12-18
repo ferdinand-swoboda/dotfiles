@@ -1,6 +1,6 @@
 # Roots of the synchronization
 root = /Users/barbarossa/
-root = /Users/barbarossa/OneDrive/home/
+root = /Users/barbarossa/Library/CloudStorage/OneDrive-Personal/home
 
 # Paths to synchronize 
 path = Documents/Private
