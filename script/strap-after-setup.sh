@@ -3,9 +3,6 @@ set -e
 trap on_sigterm SIGKILL SIGTERM
 
 TEMP_DIR=$(mktemp -d)
-COLOR_SCHEME_URL="https://raw.githubusercontent.com/MartinSeeler/iterm2-material-design/master/material-design-colors.itermcolors"
-NERD_FONT_URL="https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf"
-FISHERMAN_URL="https://git.io/fisher"
 
 function set_preferences() {
   echo "Setting some macOS system preferences..."
@@ -26,11 +23,9 @@ function set_preferences() {
   defaults write com.apple.dock autohide -bool true
   # System Preferences > Dock > Show indicators for open applications
   defaults write com.apple.dock show-process-indicators -bool true
-  # System Preferences > Mission Controll > Automatically rearrange Spaces based on most recent use
-  defaults write com.apple.dock mru-spaces -bool false
   # Finder > Preferences > Show all filename extensions
   defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-  # Finder > Preferences > Show wraning before removing from iCloud Drive
+  # Finder > Preferences > Show warning before removing from iCloud Drive
   defaults write com.apple.finder FXEnableRemoveFromICloudDriveWarning -bool false
   # Finder > View > As List
   defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
@@ -48,50 +43,6 @@ function set_preferences() {
 }
 
 #=============== START - Shell specific stuff ==================#
-
-function install_color_scheme() {
-    read -p "Do you want to install color scheme for iTerm? (y/N) " -n 1 answer
-    echo
-    if [[ ${answer} == "y" || ${answer} == "Y" ]]; then
-        echo "Downloading color scheme in ${TEMP_DIR}..."
-
-        cd ${TEMP_DIR}
-        curl -fsSL ${COLOR_SCHEME_URL} > ./material-design.itermcolors
-
-        echo "iTerm will be opened in 5 seconds, asking to import color scheme (in case, you installed iTerm)"
-        echo "Close iTerm when color scheme will be imported"
-        sleep 5
-        open -W ./material-design.itermcolors
-
-        echo "Color Scheme is installed!"
-    else
-        echo "Skipping Color Scheme installation..."
-    fi
-
-    sleep 1
-}
-
-function install_nerd_font() {
-    read -p "Do you want to install Hack Nerd Fonts? (y/N) " -n 1 answer
-    echo
-    if [[ ${answer} == "y" || ${answer} == "Y" ]]; then
-        echo "Downloading Hack Nerd Font into ${TEMP_DIR}..."
-
-        cd ${TEMP_DIR}
-        curl -fsSL ${NERD_FONT_URL} > ./nerd_font.otf
-
-        echo "Font Manager will be opened in 5 seconds, prompting to install Nerd Font"
-        echo "When you will be done with installing Nerd Font, close the Font Manager"
-        sleep 5
-        open -W ./nerd_font.otf
-
-        echo "Nerd Font is successfully installed!"
-    else
-        echo "Skipping Nerd Font installation..."
-    fi
-
-    sleep 1
-}
 
 function install_fish() {
     echo "Trying to detect installed Fish Shell..."
@@ -125,50 +76,10 @@ function install_fish() {
     sleep 1
 }
 
-function install_fisherman() {
-    echo "Fisherman is required for the installation"
-
-    read -p "Do you agree to install it? (y/N) " -n 1 answer
-    echo
-    if [ ${answer} != "y" ]; then
-        exit 1
-    fi
-
-    echo "Installing Fisherman..."
-
-    curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs ${FISHERMAN_URL}
-
-    echo "Fisherman installed!"
-
-    sleep 1
-}
-
-function install_fisherman_plugins_and_themes() {
-    echo "Some of the Fisherman plugins requires external dependencies to be installed via Homebrew..."
-
-    read -p "Do you want to install Themes and Plugins for Fisherman? (y/N) " -n 1 answer
-    echo
-    if [[ ${answer} == "y" || ${answer} == "Y" ]]; then
-        echo "Installing Themes and Plugins..."
-
-        fisher add oh-my-fish/theme-bobthefish
-
-        echo "Themes and Plugins installed!"
-    else
-        echo "Skipping Themes and Plugins installation..."
-    fi
-
-    sleep 1
-}
-
 function post_install() {
     echo
     echo
     echo "Setup was successfully done"
-    echo "Do not forgot to make two simple, but manual things:"
-    echo
-    echo "1) Open iTerm -> Preferences -> Profiles -> Colors -> Presets and apply color preset"
-    echo "2) Open iTerm -> Preferences -> Profiles -> Text -> Font and apply font (for non-ASCII as well)"
     echo
     echo "Happy Coding!"
 
@@ -182,9 +93,5 @@ function on_sigterm() {
 }
 
 set_preferences
-install_color_scheme
-install_nerd_font
 install_fish
-install_fisherman
-install_fisherman_plugins_and_themes
 post_install
