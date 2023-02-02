@@ -130,7 +130,7 @@
 [transfer]
 	fsckobjects = false
 [gpg]
-	program = gpg
+	program = /opt/homebrew/bin/gpg
 [commit]
   # https://help.github.com/articles/signing-commits-using-gpg/
 	gpgsign = true
@@ -141,3 +141,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential]
+	helper = osxkeychain
