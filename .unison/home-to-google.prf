@@ -1,6 +1,6 @@
 # Roots of the synchronization
 root = /Users/barbarossa/
-root = /Users/barbarossa/Google Drive/home/
+root = /Users/barbarossa/GoogleDrive/home/
 
 # Paths to synchronize 
 path = Documents/Private
